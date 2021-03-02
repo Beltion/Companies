@@ -24,6 +24,7 @@ class CompaniesActivity:
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        setContentView(R.layout.companies)
         initViews()
     }
 
