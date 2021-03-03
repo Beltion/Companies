@@ -34,6 +34,6 @@ object RetrofitClients {
 
 object Common {
     const val BASE_URL = "https://lifehack.studio/test_task/"
-    val retrofitCompanies
+    val retrofitCompanies: CompaniesApi
         get() = RetrofitClients.getRetrofit(BASE_URL).create(CompaniesApi::class.java)
 }

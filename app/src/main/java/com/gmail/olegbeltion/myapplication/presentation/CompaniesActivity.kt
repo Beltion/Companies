@@ -2,7 +2,6 @@ package com.gmail.olegbeltion.myapplication.presentation
 
 import android.os.Bundle
 import android.view.View
-import android.widget.ProgressBar
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
@@ -11,13 +10,15 @@ import androidx.recyclerview.widget.RecyclerView
 import com.gmail.olegbeltion.core.business.entities.Company
 import com.gmail.olegbeltion.myapplication.R
 import com.gmail.olegbeltion.myapplication.business.CompaniesView
+import com.gmail.olegbeltion.myapplication.business.adapters.CompaniesRvAdapter
 
-class CompaniesActivity:
-    CompaniesView,
-    AppCompatActivity() {
+class CompaniesActivity :
+        CompaniesView,
+        CompaniesRvAdapter.OnCompaniesRvAdapterListener,
+        AppCompatActivity() {
 
     lateinit var content: ConstraintLayout
-    lateinit var progressBar: ProgressBar
+    lateinit var progressBarContainer: ConstraintLayout
     lateinit var rvCompanies: RecyclerView
 
     lateinit var presenter: CompaniesPresenterImpl
@@ -34,7 +35,8 @@ class CompaniesActivity:
     }
 
     override fun initCompaniesRecyclerView(companies: ArrayList<Company>) {
-        TODO("Not yet implemented")
+        val adapter = CompaniesRvAdapter(companies, this)
+        rvCompanies.adapter = adapter
     }
 
     override fun startCompanyDeteil(companyId: Int) {
@@ -43,7 +45,7 @@ class CompaniesActivity:
 
     override fun initViews() {
         content = findViewById(R.id.content_companies)
-        progressBar = findViewById(R.id.progress_bar)
+        progressBarContainer = findViewById(R.id.container_progress_bar)
 
         rvCompanies = findViewById(R.id.rv_companies)
         rvCompanies.layoutManager = LinearLayoutManager(this, RecyclerView.VERTICAL, false)
@@ -62,15 +64,19 @@ class CompaniesActivity:
     override fun getStringFromId(id: Int) = getString(id)
 
 
-
     override fun showContent() {
         content.visibility = View.VISIBLE
-        progressBar.visibility = View.INVISIBLE
+        progressBarContainer.visibility = View.INVISIBLE
     }
 
     override fun hideContent() {
         content.visibility = View.INVISIBLE
-        progressBar.visibility = View.VISIBLE
+        progressBarContainer.visibility = View.VISIBLE
 
     }
+
+    override fun onItemClick() {
+        TODO("Not yet implemented")
+    }
+
 }

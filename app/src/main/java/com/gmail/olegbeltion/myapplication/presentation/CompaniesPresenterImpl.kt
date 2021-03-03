@@ -1,11 +1,15 @@
 package com.gmail.olegbeltion.myapplication.presentation
 
+import android.graphics.drawable.Drawable
 import android.util.Log
+import com.bumptech.glide.Glide
 import com.gmail.olegbeltion.core.business.entities.CompaniesApiResultWrapper
+import com.gmail.olegbeltion.myapplication.R
 import com.gmail.olegbeltion.myapplication.business.CompaniesPresenter
 import com.gmail.olegbeltion.myapplication.business.CompaniesView
 import kotlinx.coroutines.*
 import java.lang.ref.WeakReference
+import java.lang.reflect.Type
 
 class CompaniesPresenterImpl : CompaniesPresenter {
 
@@ -24,28 +28,44 @@ class CompaniesPresenterImpl : CompaniesPresenter {
         v = WeakReference(view)
     }
 
+
+
     override fun onViewCreated() {
         v?.get()?.let { view ->
             scopeMain.launch {
-                view.showContent()
                 val companiesResult = withContext(scopeIO.coroutineContext){
+                    delay(2000)
                     model.getCompanies()
                 }
-                when(companiesResult){
-                    is CompaniesApiResultWrapper.Success -> {
-                        Log.d(TAG, "Good request. Result is:")
-                        Log.d(TAG, companiesResult.companies.toString())
-                    }
-                    is CompaniesApiResultWrapper.Error -> {
-                        Log.d(TAG, "Bad request. Http error is:")
-                        Log.e(TAG, "Cod: ${companiesResult.cod}, Msg: ${companiesResult.message}")
-                    }
-                    is CompaniesApiResultWrapper.NetworkError -> {
-                        Log.d(TAG, "Bad request. Network error :(")
-                    }
-                }
+                onCompaniesResultAction(companiesResult)
+                view.showContent()
             }
 
+
+        }
+    }
+
+    private fun onCompaniesResultAction(companiesResult: CompaniesApiResultWrapper<Type>) {
+        v?.get()?.let { view ->
+            when(companiesResult){
+                is CompaniesApiResultWrapper.Success -> {
+                    Log.d(TAG, "Good request. Result is:")
+                    Log.d(TAG, companiesResult.companies.toString())
+                    view.initCompaniesRecyclerView(companiesResult.companies)
+                    view.showContent()
+                }
+                is CompaniesApiResultWrapper.Error -> {
+                    Log.d(TAG, "Bad request. Http error is:")
+                    Log.e(TAG, "Cod: ${companiesResult.cod}, Msg: ${companiesResult.message}")
+                }
+                is CompaniesApiResultWrapper.NetworkError -> {
+                    Log.e(TAG, "Bad request. Network error :(")
+                }
+                else -> {
+                    Log.e(TAG, "Something wrong :(")
+                    Log.e(TAG, companiesResult.toString())
+                }
+            }
 
         }
     }
