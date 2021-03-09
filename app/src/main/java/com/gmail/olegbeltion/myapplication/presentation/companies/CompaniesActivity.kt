@@ -1,4 +1,4 @@
-package com.gmail.olegbeltion.myapplication.presentation
+package com.gmail.olegbeltion.myapplication.presentation.companies
 
 import android.os.Bundle
 import android.view.View
@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.gmail.olegbeltion.core.business.entities.Company
 import com.gmail.olegbeltion.myapplication.R
-import com.gmail.olegbeltion.myapplication.business.CompaniesView
+import com.gmail.olegbeltion.myapplication.business.logic.CompaniesView
 import com.gmail.olegbeltion.myapplication.business.adapters.CompaniesRvAdapter
 
 class CompaniesActivity :
@@ -75,8 +75,8 @@ class CompaniesActivity :
 
     }
 
-    override fun onItemClick() {
-        TODO("Not yet implemented")
+    override fun onItemClick(companyID: Int) {
+        presenter.onItemCLick(companyID)
     }
 
 }

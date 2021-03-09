@@ -1,12 +1,9 @@
-package com.gmail.olegbeltion.myapplication.presentation
+package com.gmail.olegbeltion.myapplication.presentation.companies
 
-import android.graphics.drawable.Drawable
 import android.util.Log
-import com.bumptech.glide.Glide
 import com.gmail.olegbeltion.core.business.entities.CompaniesApiResultWrapper
-import com.gmail.olegbeltion.myapplication.R
-import com.gmail.olegbeltion.myapplication.business.CompaniesPresenter
-import com.gmail.olegbeltion.myapplication.business.CompaniesView
+import com.gmail.olegbeltion.myapplication.business.logic.CompaniesPresenter
+import com.gmail.olegbeltion.myapplication.business.logic.CompaniesView
 import kotlinx.coroutines.*
 import java.lang.ref.WeakReference
 import java.lang.reflect.Type
@@ -28,6 +25,9 @@ class CompaniesPresenterImpl : CompaniesPresenter {
         v = WeakReference(view)
     }
 
+    override fun onItemCLick(companyID: Int) {
+        v?.get()?.startCompanyDeteil(companyID)
+    }
 
 
     override fun onViewCreated() {

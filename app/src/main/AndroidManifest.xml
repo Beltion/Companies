@@ -12,7 +12,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Companies">
 
-        <activity android:name=".presentation.CompaniesActivity">
+        <activity android:name=".presentation.companies.CompaniesActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>

@@ -1,14 +1,12 @@
-package com.gmail.olegbeltion.myapplication.business
+package com.gmail.olegbeltion.myapplication.business.logic
 
-import android.content.Context
-import android.graphics.drawable.Drawable
-import com.bumptech.glide.RequestBuilder
 import com.gmail.olegbeltion.core.business.entities.Company
 import com.gmail.olegbeltion.core.business.logic.BasePresenter
 import com.gmail.olegbeltion.core.business.logic.BaseView
 
 interface CompaniesPresenter: BasePresenter {
     fun initView(view: CompaniesView)
+    fun onItemCLick(companyID: Int)
 }
 
 interface CompaniesView: BaseView {

@@ -1,4 +1,4 @@
-package com.gmail.olegbeltion.myapplication.presentation
+package com.gmail.olegbeltion.myapplication.presentation.companies
 
 import com.gmail.olegbeltion.core.business.entities.CompaniesApiResultWrapper
 import com.gmail.olegbeltion.core.usecase.GetCompaniesUseCase

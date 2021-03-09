@@ -26,10 +26,17 @@ class CompaniesRvAdapter(
     class CompanyVh(view: View): RecyclerView.ViewHolder(view) {
         val name = view.findViewById<TextView>(R.id.name_company_item)
         val img = view.findViewById<ImageView>(R.id.img_company_item)
+
+        fun onItemClick(companyID: Int, listener: OnCompaniesRvAdapterListener){
+            itemView.setOnClickListener {
+                listener.onItemClick(companyID)
+            }
+        }
+
     }
 
     interface OnCompaniesRvAdapterListener {
-        fun onItemClick()
+        fun onItemClick(companyID: Int)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CompanyVh {
@@ -50,6 +57,8 @@ class CompaniesRvAdapter(
             .placeholder(R.drawable.ic_baseline_corporate)
             .error(R.drawable.ic_baseline_corporate)
             .into(holder.img)
+
+        holder.onItemClick(companies[position].id, listener)
     }
 
     override fun getItemCount(): Int = companies.size
