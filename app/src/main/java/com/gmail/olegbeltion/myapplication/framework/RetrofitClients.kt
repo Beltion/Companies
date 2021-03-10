@@ -16,7 +16,7 @@ interface CompaniesApi{
     @GET("test.php")
     suspend fun getCompany(
         @Query("id") id: Int
-    ): CompanyDeteil
+    ): ArrayList<CompanyDeteil>
 }
 
 object RetrofitClients {

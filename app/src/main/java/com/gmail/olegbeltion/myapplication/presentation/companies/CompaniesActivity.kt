@@ -1,5 +1,6 @@
 package com.gmail.olegbeltion.myapplication.presentation.companies
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
@@ -11,6 +12,7 @@ import com.gmail.olegbeltion.core.business.entities.Company
 import com.gmail.olegbeltion.myapplication.R
 import com.gmail.olegbeltion.myapplication.business.logic.CompaniesView
 import com.gmail.olegbeltion.myapplication.business.adapters.CompaniesRvAdapter
+import com.gmail.olegbeltion.myapplication.presentation.company.CompanyActivity
 
 class CompaniesActivity :
         CompaniesView,
@@ -40,8 +42,12 @@ class CompaniesActivity :
     }
 
     override fun startCompanyDeteil(companyId: Int) {
-        TODO("Not yet implemented")
+        val intent = Intent(this, CompanyActivity::class.java)
+        intent.putExtra("id", companyId)
+        startActivity(intent)
+
     }
+
 
     override fun initViews() {
         content = findViewById(R.id.content_companies)
