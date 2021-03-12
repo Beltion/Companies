@@ -4,7 +4,7 @@ data class CompanyDeteil(
     val id: Int = 0,
     var name: String = "",
     var img: String = "",
-    var description: String = "",
+    val description: String = "",
     val lat: Double = 0.0,
     val lon: Double = 0.0,
     var www: String = "",

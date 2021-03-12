@@ -3,8 +3,10 @@ package com.gmail.olegbeltion.myapplication.presentation.company
 import android.util.Log
 import com.gmail.olegbeltion.core.business.entities.CompanyApiResultWrapper
 import com.gmail.olegbeltion.core.business.entities.CompanyDeteil
+import com.gmail.olegbeltion.myapplication.R
 import com.gmail.olegbeltion.myapplication.business.logic.CompanyPresenter
 import com.gmail.olegbeltion.myapplication.business.logic.CompanyView
+import com.gmail.olegbeltion.myapplication.business.logic.HttpErrorStrCoder
 import com.gmail.olegbeltion.myapplication.framework.Common
 import kotlinx.coroutines.*
 import java.lang.ref.WeakReference
@@ -38,23 +40,47 @@ class CompanyPresenterImpl: CompanyPresenter {
                     when(companyResult){
                         is CompanyApiResultWrapper.Success -> {
                             Log.d(TAG, "Get company is good")
-                            val company = checkCompanyData(companyResult.company)
-                            withContext(scopeIO.coroutineContext){
-                                delay(1000)
+                            val company = companyResult.company
+                            if (company != null) {
+                                val companyChecked = checkCompanyData(company)
+                                withContext(scopeIO.coroutineContext){
+                                    delay(1000)
+                                }
+                                view.setDataOnViews(companyChecked)
+
                             }
-                            view.setDataOnViews(company)
                             view.showContent()
+                        }
+                        is CompanyApiResultWrapper.ParseError -> {
+                            Log.e(TAG,"Parse error")
+                            Log.e(TAG,companyResult.errorBody)
+                            view.showToast(
+                                    view.getStringFromId(
+                                            R.string.not_load
+                                    )
+                            )
                         }
                         is CompanyApiResultWrapper.NetworkError -> {
                             Log.e(TAG,"IOException")
+                            view.showToast(view.getStringFromId(R.string.no_ethernet))
                             view.toCompanies()
                         }
                         is CompanyApiResultWrapper.Error -> {
                             Log.e(TAG, "Error with code:${companyResult.cod} mess:${companyResult.message}")
+                            view.showToast(
+                                    view.getStringFromId(
+                                            HttpErrorStrCoder().getHttpErrorStrCode(code = companyResult.cod)
+                                    )
+                            )
                             view.toCompanies()
                         }
                         else -> {
                             Log.e(TAG,"Some error...")
+                            view.showToast(
+                                    view.getStringFromId(
+                                            R.string.not_load
+                                    )
+                            )
                             view.toCompanies()
                         }
                     }
