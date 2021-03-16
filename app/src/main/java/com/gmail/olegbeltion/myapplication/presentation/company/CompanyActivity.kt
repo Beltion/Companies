@@ -1,10 +1,8 @@
 package com.gmail.olegbeltion.myapplication.presentation.company
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.ImageView
-import android.widget.ProgressBar
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
@@ -12,17 +10,18 @@ import com.bumptech.glide.Glide
 import com.gmail.olegbeltion.core.business.entities.CompanyDeteil
 import com.gmail.olegbeltion.myapplication.R
 import com.gmail.olegbeltion.myapplication.business.logic.CompanyView
+import com.google.android.material.appbar.CollapsingToolbarLayout
 import com.google.android.material.textview.MaterialTextView
 
-class CompanyActivity:
+class CompanyActivity :
         AppCompatActivity(),
-        CompanyView
-{
+        CompanyView {
 
-    private lateinit var contentContainer: ConstraintLayout
     private lateinit var progressBarContainer: ConstraintLayout
+    private lateinit var collapseToolbarLayout: CollapsingToolbarLayout
+    private lateinit var toolBar: androidx.appcompat.widget.Toolbar
     private lateinit var img: ImageView
-    private lateinit var name: MaterialTextView
+
     private lateinit var www: MaterialTextView
     private lateinit var phone: MaterialTextView
     private lateinit var desc: MaterialTextView
@@ -53,26 +52,31 @@ class CompanyActivity:
                 .load(company.img)
                 .error(R.drawable.ic_baseline_corporate)
                 .placeholder(R.drawable.ic_baseline_corporate)
-                .override(200,200)
+                .override(200, 200)
                 .fitCenter()
                 .into(img)
 
-        name.text = company.name
         www.text = company.www
         phone.text = company.phone
         desc.text = company.description
+
+        collapseToolbarLayout.title = company.name
     }
 
     override fun initViews() {
-//        contentContainer = findViewById(R.id.content_company)
         progressBarContainer = findViewById(R.id.container_progress_bar)
 
+        toolBar = findViewById(R.id.toolbar_company)
+        collapseToolbarLayout = findViewById(R.id.collapsing_toolbar)
+
         img = findViewById(R.id.img_company)
-        name = findViewById(R.id.name_company)
         www = findViewById(R.id.www_company)
         phone = findViewById(R.id.phone_company)
         desc = findViewById(R.id.desc_company)
 
+        setSupportActionBar(toolBar)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        supportActionBar?.setDisplayShowHomeEnabled(true)
     }
 
     override fun initLogic() {
@@ -88,12 +92,10 @@ class CompanyActivity:
     override fun getStringFromId(id: Int) = getString(id)
 
     override fun showContent() {
-//        contentContainer.visibility = View.VISIBLE
         progressBarContainer.visibility = View.GONE
     }
 
     override fun hideContent() {
-//        contentContainer.visibility = View.INVISIBLE
         progressBarContainer.visibility = View.VISIBLE
     }
 }
