@@ -8,6 +8,8 @@ import com.gmail.olegbeltion.myapplication.business.logic.CompanyPresenter
 import com.gmail.olegbeltion.myapplication.business.logic.CompanyView
 import com.gmail.olegbeltion.myapplication.business.logic.HttpErrorStrCoder
 import com.gmail.olegbeltion.myapplication.framework.Common
+import com.tomtom.online.sdk.common.location.LatLng
+import com.tomtom.online.sdk.map.*
 import kotlinx.coroutines.*
 import java.lang.ref.WeakReference
 
@@ -26,6 +28,22 @@ class CompanyPresenterImpl: CompanyPresenter {
     override fun initView(view: CompanyView) {
         v = WeakReference(view)
     }
+
+    override fun onMapReady(tomtomMap: TomtomMap, position: LatLng) {
+        val cameraPosition = CameraPosition.builder()
+                .focusPosition(position)
+                .zoom(13.0)
+                .pitch(5.0)
+                .bearing(MapConstants.ORIENTATION_NORTH.toDouble())
+                .build()
+        tomtomMap.centerOn(cameraPosition)
+
+        val markerBuilder = MarkerBuilder(position)
+                .iconAnchor(MarkerAnchor.Bottom)
+                .decal(true)
+        tomtomMap.addMarker(markerBuilder)
+    }
+
 
     override fun onViewCreated() {
         v?.get()?.let { view ->

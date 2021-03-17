@@ -14,6 +14,7 @@ import com.gmail.olegbeltion.myapplication.business.logic.CompaniesView
 import com.gmail.olegbeltion.myapplication.business.adapters.CompaniesRvAdapter
 import com.gmail.olegbeltion.myapplication.presentation.company.CompanyActivity
 
+
 class CompaniesActivity :
         CompaniesView,
         CompaniesRvAdapter.OnCompaniesRvAdapterListener,
@@ -84,5 +85,7 @@ class CompaniesActivity :
     override fun onItemClick(companyID: Int) {
         presenter.onItemCLick(companyID)
     }
+
+
 
 }

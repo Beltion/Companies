@@ -15,6 +15,8 @@ android {
         versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        buildConfigField("String", "MAPS_API_KEY", "\"so5jGwPL6ldGD6ZKFrYAJhDBh00TA4H5\"")
+        multiDexEnabled true
     }
 
     buildTypes {
@@ -58,4 +60,10 @@ dependencies {
         // Excludes the support library because it's already included by Glide.
         transitive = false
     }
+
+    def tomtom_version = "2.4807"
+    implementation("com.tomtom.online:sdk-maps:$tomtom_version")
+
+    implementation 'androidx.multidex:multidex:2.0.1'
+
 }

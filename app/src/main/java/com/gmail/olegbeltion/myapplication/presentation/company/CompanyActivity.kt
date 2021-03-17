@@ -1,6 +1,7 @@
 package com.gmail.olegbeltion.myapplication.presentation.company
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.ImageView
 import android.widget.Toast
@@ -12,10 +13,15 @@ import com.gmail.olegbeltion.myapplication.R
 import com.gmail.olegbeltion.myapplication.business.logic.CompanyView
 import com.google.android.material.appbar.CollapsingToolbarLayout
 import com.google.android.material.textview.MaterialTextView
+import com.tomtom.online.sdk.common.location.LatLng
+import com.tomtom.online.sdk.map.*
+
+
 
 class CompanyActivity :
-        AppCompatActivity(),
-        CompanyView {
+    AppCompatActivity(),
+    CompanyView,
+    OnMapReadyCallback {
 
     private lateinit var progressBarContainer: ConstraintLayout
     private lateinit var collapseToolbarLayout: CollapsingToolbarLayout
@@ -27,6 +33,9 @@ class CompanyActivity :
     private lateinit var desc: MaterialTextView
 
     private lateinit var presenter: CompanyPresenterImpl
+
+    private lateinit var mapFragment: MapFragment
+    private lateinit var position: LatLng
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -48,20 +57,24 @@ class CompanyActivity :
     override fun setDataOnViews(company: CompanyDeteil) {
 
         Glide.with(this)
-                .asDrawable()
-                .load(company.img)
-                .error(R.drawable.ic_baseline_corporate)
-                .placeholder(R.drawable.ic_baseline_corporate)
-                .override(200, 200)
-                .fitCenter()
-                .into(img)
+            .asDrawable()
+            .load(company.img)
+            .error(R.drawable.ic_baseline_corporate)
+            .placeholder(R.drawable.ic_baseline_corporate)
+            .override(200, 200)
+            .fitCenter()
+            .into(img)
 
         www.text = company.www
         phone.text = company.phone
         desc.text = company.description
 
         collapseToolbarLayout.title = company.name
+
+        position = LatLng(company.lat, company.lon)
+        mapFragment.getAsyncMap(this)
     }
+
 
     override fun initViews() {
         progressBarContainer = findViewById(R.id.container_progress_bar)
@@ -77,6 +90,8 @@ class CompanyActivity :
         setSupportActionBar(toolBar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setDisplayShowHomeEnabled(true)
+
+        mapFragment = supportFragmentManager.findFragmentById(R.id.fragment_map_company) as MapFragment
     }
 
     override fun initLogic() {
@@ -97,5 +112,9 @@ class CompanyActivity :
 
     override fun hideContent() {
         progressBarContainer.visibility = View.VISIBLE
+    }
+
+    override fun onMapReady(tomtomMap: TomtomMap) {
+        presenter.onMapReady(tomtomMap, position)
     }
 }
