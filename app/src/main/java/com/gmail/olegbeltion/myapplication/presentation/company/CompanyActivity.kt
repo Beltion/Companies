@@ -71,8 +71,13 @@ class CompanyActivity :
 
         collapseToolbarLayout.title = company.name
 
-        position = LatLng(company.lat, company.lon)
-        mapFragment.getAsyncMap(this)
+        if(company.lat == 0.0 && company.lon == 0.0) {
+            mapFragment.view?.visibility = View.GONE
+        } else {
+            position = LatLng(company.lat, company.lon)
+            mapFragment.getAsyncMap(this)
+        }
+
     }
 
 

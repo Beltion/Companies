@@ -4,8 +4,6 @@ import com.gmail.olegbeltion.core.business.entities.CompanyDeteil
 import com.gmail.olegbeltion.core.business.logic.BasePresenter
 import com.gmail.olegbeltion.core.business.logic.BaseView
 import com.tomtom.online.sdk.common.location.LatLng
-import com.tomtom.online.sdk.map.ApiKeyType
-import com.tomtom.online.sdk.map.MapProperties
 import com.tomtom.online.sdk.map.TomtomMap
 
 

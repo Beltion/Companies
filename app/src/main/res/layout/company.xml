@@ -60,7 +60,8 @@
                     android:textSize="15sp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/img_company"
-                    app:layout_constraintTop_toBottomOf="@+id/www_company" />
+                    app:layout_constraintTop_toBottomOf="@+id/www_company"
+                    app:layout_constraintBottom_toBottomOf="parent"/>
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 

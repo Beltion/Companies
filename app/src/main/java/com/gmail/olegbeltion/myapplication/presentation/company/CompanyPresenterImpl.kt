@@ -47,6 +47,7 @@ class CompanyPresenterImpl: CompanyPresenter {
 
     override fun onViewCreated() {
         v?.get()?.let { view ->
+            Log.d(TAG, "View created")
             val companyID = view.getCompanyID()
             if (companyID != 0) {
                 Log.d(TAG, "Company id is good: $companyID")
@@ -62,7 +63,6 @@ class CompanyPresenterImpl: CompanyPresenter {
                             if (company != null) {
                                 val companyChecked = checkCompanyData(company)
                                 withContext(scopeIO.coroutineContext){
-                                    delay(1000)
                                 }
                                 view.setDataOnViews(companyChecked)
 
@@ -112,6 +112,8 @@ class CompanyPresenterImpl: CompanyPresenter {
     private fun checkCompanyData(company: CompanyDeteil): CompanyDeteil {
         company.img = Common.BASE_URL + company.img
         Log.d(TAG,"IGM URL:${company.img}")
+        Log.d(TAG,"lat:${company.lat}")
+        Log.d(TAG,"lon:${company.lon}")
         if (company.name.isBlank()){
             company.name = "Имя не указано"
         }
