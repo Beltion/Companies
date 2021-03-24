@@ -14,13 +14,14 @@ class CompaniesApiDataSource: CompaniesDataSource {
             val companies: ArrayList<Company> = Common.retrofitCompanies.getCompanies()
             CompaniesApiResultWrapper.Success(companies)
         } catch (t: Throwable){
+            t.printStackTrace()
             when(t){
-                is IOException -> CompaniesApiResultWrapper.NetworkError
+                is IOException -> {
+                    CompaniesApiResultWrapper.NetworkError}
                 is HttpException -> {
                     CompaniesApiResultWrapper.Error(t.code(), t.message())
                 }
                 else -> {
-                    t.printStackTrace()
                     CompaniesApiResultWrapper.Error(message = t.message ?: "")
                 }
             }

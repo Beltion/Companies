@@ -2,6 +2,7 @@ package com.gmail.olegbeltion.myapplication.presentation.company
 
 import android.os.Bundle
 import android.util.Log
+import android.view.MenuItem
 import android.view.View
 import android.widget.ImageView
 import android.widget.Toast
@@ -46,6 +47,15 @@ class CompanyActivity :
     override fun onStart() {
         super.onStart()
         initLogic()
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+//        Check ID of back button on actionbar
+        when(item.itemId){
+//        There must be android.R.id.home, but it's not work
+            16908332 -> toCompanies()// <- this is a real ID
+        }
+        return super.onOptionsItemSelected(item)
     }
 
     override fun toCompanies() {
@@ -93,9 +103,10 @@ class CompanyActivity :
         desc = findViewById(R.id.desc_company)
 
         setSupportActionBar(toolBar)
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        supportActionBar?.setDisplayShowHomeEnabled(true)
-
+        supportActionBar?.run {
+            setDisplayHomeAsUpEnabled(true)
+            setDisplayShowHomeEnabled(true)
+        }
         mapFragment = supportFragmentManager.findFragmentById(R.id.fragment_map_company) as MapFragment
     }
 
